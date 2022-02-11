@@ -17,7 +17,7 @@ import 'package:intl_generator/src/arb_generation.dart';
 import 'package:intl_generator/src/directory_utils.dart';
 import 'package:path/path.dart' as path;
 
-main(List<String> args) {
+Future<void> main(List<String> args) async {
   var targetDir;
   var outputFilename;
   String? sourcesListFile;
@@ -92,7 +92,8 @@ main(List<String> args) {
     allMessages["@@last_modified"] = new DateTime.now().toIso8601String();
   }
 
-  var dartFiles = args.where((x) => x.endsWith(".dart")).toList();
+  final List<String> dartFiles = await findDartFilesInDirectories(args);
+  dartFiles.addAll(args.where((String file) => file.endsWith(".dart")));
   dartFiles.addAll(linesFromFile(sourcesListFile));
   for (var arg in dartFiles) {
     var messages = extraction.parseFile(new File(arg), transformer);

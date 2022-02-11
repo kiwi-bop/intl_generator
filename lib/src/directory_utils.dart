@@ -30,3 +30,32 @@ String _relativeToBase(String base, String filename) {
     return filename;
   }
 }
+
+List<Directory> _findDirectories(List<String> paths) {
+  final List<Directory> directories = <Directory>[];
+  for (final String path in paths) {
+    if (FileSystemEntity.typeSync(path) == FileSystemEntityType.directory) {
+      directories.add(Directory(path));
+    }
+  }
+  return directories;
+}
+
+Future<List<String>> findDartFilesInDirectories(
+  List<String> paths,
+) async {
+  final List<Directory> directories = _findDirectories(paths);
+  final List<String> dartFiles = <String>[];
+
+  for (final Directory directory in directories) {
+    final List<FileSystemEntity> entities =
+        await directory.list(recursive: true).toList();
+    final Iterable<FileSystemEntity> files = entities.where(_isDartFile);
+    dartFiles.addAll(files.map((FileSystemEntity file) => file.path));
+  }
+  return dartFiles;
+}
+
+bool _isDartFile(FileSystemEntity entity) {
+  return entity is File && entity.path.endsWith(".dart");
+}

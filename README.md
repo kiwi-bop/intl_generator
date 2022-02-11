@@ -18,7 +18,7 @@ results need to be incorporated.
 To extract messages, run the `extract_to_arb.dart` program.
 
       pub run intl_generator:extract_to_arb --output-dir=target/directory
-          my_program.dart more_of_my_program.dart
+          my_program.dart more_of_my_program.dart my/target/programs/directory
 
 This will produce a file `intl_messages.arb` with the messages from all of these
 programs. This is an [ARB][ARB] format file which can be used for input to
@@ -32,7 +32,7 @@ locale.
 
 ```
 pub run intl_generator:generate_from_arb --generated-file-prefix=<prefix>
-    <my_dart_files> <translated_ARB_files>
+    <my_dart_files> <my_dart_files_directory> <translated_ARB_files>
 ```
 
 This will generate Dart libraries, one per locale, which contain the

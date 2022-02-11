@@ -35,7 +35,7 @@ late Map<String, List<MainMessage>> messages;
 
 const jsonDecoder = const JsonCodec();
 
-main(List<String> args) {
+Future<void> main(List<String> args) async {
   var targetDir;
   var parser = new ArgParser();
   var extraction = new MessageExtraction();
@@ -86,7 +86,8 @@ main(List<String> args) {
           "don't need to be specified for messages.");
 
   parser.parse(args);
-  var dartFiles = args.where((x) => x.endsWith("dart")).toList();
+  final List<String> dartFiles = await findDartFilesInDirectories(args);
+  dartFiles.addAll(args.where((String file) => file.endsWith(".dart")));
   var jsonFiles = args.where((x) => x.endsWith(".arb")).toList();
   dartFiles.addAll(linesFromFile(sourcesListFile));
   jsonFiles.addAll(linesFromFile(translationsListFile));
