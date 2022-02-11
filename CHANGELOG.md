@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.0
+ * add ability to find dart files in a directory
+
 ## 0.2.1
  * bump deps
 
