@@ -45,7 +45,7 @@ Map arbMetadata(MainMessage message) {
   var placeholders = {};
   var placeholderNames = [];
   for (var arg in message.arguments) {
-    placeholderNames.add(arg);
+    placeholderNames.add(arg.name);
     addArgumentFor(message, arg, placeholders);
   }
   out["placeholders_order"] = placeholderNames;
@@ -53,12 +53,15 @@ Map arbMetadata(MainMessage message) {
   return out;
 }
 
-void addArgumentFor(MainMessage message, String arg, Map result) {
+void addArgumentFor(MainMessage message, MessageArgument arg, Map result) {
   var extraInfo = {};
-  if (message.examples.isNotEmpty && message.examples[arg] != null) {
-    extraInfo["example"] = message.examples[arg];
+  if (arg.type != null) {
+    extraInfo["type"] = arg.type;
   }
-  result[arg] = extraInfo;
+  if (message.examples.isNotEmpty && message.examples[arg.name] != null) {
+    extraInfo["example"] = message.examples[arg.name];
+  }
+  result[arg.name] = extraInfo;
 }
 
 /// Return a version of the message string with with ICU parameters "{variable}"

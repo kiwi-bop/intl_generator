@@ -482,7 +482,7 @@ class MainMessage extends ComplexMessage {
   String? id;
 
   /// The arguments list from the Intl.message call.
-  List<String> arguments = [];
+  List<MessageArgument> arguments = [];
 
   /// The locale argument from the Intl.message call
   String? locale;
@@ -976,4 +976,14 @@ class IntlMessageExtractionException implements Exception {
   const IntlMessageExtractionException([this.message = ""]);
 
   String toString() => "IntlMessageExtractionException: $message";
+}
+
+// An argument for a message. Arguments might have a type and must have a name.
+class MessageArgument {
+  final String? type;
+  final String name;
+
+  const MessageArgument({this.type, required this.name});
+
+  String toString() => "$type $name";
 }
